@@ -3,24 +3,23 @@ package builders;
 public class Cliente {
 
     // ID, NOMBRE, APELLIDO PATERNO, APELLIDO MATERNO, domicilio
-    private int id;
-    private String nombre, apellidoP, apellidoM, domicilio, ciudad;
-    private long telefono;
+    private String nombre, apellidoP, apellidoM, domicilio, ciudad, tipoCuenta;
+    private Long telefono;
 
-    public Cliente(int id, String nombre, String apellidoP, String apellidoM, String domicilio, String ciudad, long telefono){
-        this.id = id;
+    public Cliente(String nombre, String apellidoP, String apellidoM, String domicilio, String ciudad, Long telefono, String tipoCuenta){
         this.nombre = nombre;
         this.apellidoP = apellidoP;
         this.apellidoM = apellidoM;
         this.domicilio = domicilio;
         this.ciudad = ciudad;
         this.telefono = telefono;
+        this.tipoCuenta = tipoCuenta;
+    }
+
+    public Cliente(String nombre) {
     }
 
     // Getters
-    public int getId() {
-        return id;
-    }
 
     public String getNombre() {
         return nombre;
@@ -42,14 +41,15 @@ public class Cliente {
         return ciudad;
     }
 
-    public long getTelefono() {
+    public Long getTelefono() {
         return telefono;
     }
 
-    // Setters
-    public void setId(int id) {
-        this.id = id;
+    public String getTipoCuenta() {
+        return tipoCuenta;
     }
+
+    // Setters
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -71,7 +71,11 @@ public class Cliente {
         this.ciudad = ciudad;
     }
 
-    public void setTelefono(long telefono) {
+    public void setTelefono(Long telefono) {
         this.telefono = telefono;
+    }
+
+    public void setTipoCuenta(String tipoCuenta) {
+        this.tipoCuenta = tipoCuenta;
     }
 }

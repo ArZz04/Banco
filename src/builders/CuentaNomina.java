@@ -3,24 +3,40 @@ package builders;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class CuentaNomina {
+public class CuentaNomina extends CuentaBancaria {
 
     private ArrayList<Movimientos> movimientos;
-    private Date fechAlta;
+
     private Cliente cliente;
 
-    public CuentaNomina(ArrayList<Movimientos> movimientos, Date fechAlta, Cliente cliente ){
-        this.movimientos = movimientos;
-        this.fechAlta = fechAlta;
+    public CuentaNomina(int nCuenta, double saldo, Date fechaAlta, Cliente cliente) {
+        super(nCuenta, 0, fechaAlta, cliente);
+        this.movimientos = new ArrayList<>();
         this.cliente = cliente;
     }
 
+    public ArrayList<Movimientos> getMovimientos() {
+        return movimientos;
+    }
+
+    public void setMovimientos(ArrayList<Movimientos> movimientos) {
+        this.movimientos = movimientos;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+
     public void depositar(double cantidad){
-        return;
+        // Aquí implementar la lógica para depositar
     }
+
     public void retirar(double cantidad){
-        return;
+        // Aquí implementar la lógica para retirar
     }
-
-
 }

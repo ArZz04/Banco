@@ -16,4 +16,42 @@ public class CuentaBancaria {
         this.cliente = cliente;
     }
 
+    public CuentaBancaria(long nCuenta, String nombre, Date fechAlta){
+        this.nCuenta = nCuenta;
+        this.cliente = new Cliente(nombre);;
+        this.fechAlta = fechAlta;
+    }
+
+    public long getNCuenta() {
+        return nCuenta;
+    }
+
+    public void setNCuenta(long nCuenta) {
+        this.nCuenta = nCuenta;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    public Date getFechAlta() {
+        return fechAlta;
+    }
+
+    public void setFechAlta(Date fechAlta) {
+        this.fechAlta = fechAlta;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
 }
