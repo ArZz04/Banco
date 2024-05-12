@@ -42,8 +42,8 @@ public class NomController {
             File[] archivos = directorio.listFiles();
 
             if (archivos != null) {
-                System.out.println("-------------------------------------------------------------------------------------------");
-                System.out.println("NCuenta | Nombre | ApellidoP | ApellidoM | Domicilio | Ciudad | FechaAlta           | Saldo");
+                System.out.println("----------------------------------------------| NOMINAS |----------------------------------------------");
+                System.out.println("NCuenta | Nombre | ApellidoP | ApellidoM | Domicilio | Ciudad | Telefono | Saldo | FechaAlta           ");
 
                 for (File archivo : archivos) {
                     if (archivo.isFile() && archivo.getName().toLowerCase().endsWith(".txt")) {

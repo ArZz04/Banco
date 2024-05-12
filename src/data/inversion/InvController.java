@@ -42,8 +42,8 @@ public class InvController {
             File[] archivos = directorio.listFiles();
 
             if (archivos != null) {
-                System.out.println("-------------------------------------------------------------------------------------------");
-                System.out.println("NCuenta | Nombre | ApellidoP | ApellidoM | Domicilio | Ciudad | FechaAlta           | Inversion");
+                System.out.println("----------------------------------------------| INVERSIONES |----------------------------------------------");
+                System.out.println("NCuenta | Nombre | ApellidoP | ApellidoM | Domicilio | Ciudad | Telefono | Inversion | FechaAlta           ");
 
                 for (File archivo : archivos) {
                     if (archivo.isFile() && archivo.getName().toLowerCase().endsWith(".txt")) {
