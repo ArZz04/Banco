@@ -2,10 +2,7 @@ package data.nominas;
 
 import builders.CuentaNomina;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class NomController {
 
@@ -33,6 +30,39 @@ public class NomController {
             return false;
         }
         return true;
+    }
+
+    public static void showNominas() {
+        // Crear un objeto File con la ruta del directorio
+        File directorio = new File(PATH);
+
+        // Verificar si el objeto File representa un directorio válido
+        if (directorio.isDirectory()) {
+            // Obtener la lista de archivos y subdirectorios dentro del directorio
+            File[] archivos = directorio.listFiles();
+
+            if (archivos != null) {
+                System.out.println("-------------------------------------------------------------------------------------------");
+                System.out.println("NCuenta | Nombre | ApellidoP | ApellidoM | Domicilio | Ciudad | FechaAlta           | Saldo");
+
+                for (File archivo : archivos) {
+                    if (archivo.isFile() && archivo.getName().toLowerCase().endsWith(".txt")) {
+
+                        // Leer y mostrar el contenido del archivo
+                        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+                            String linea;
+                            while ((linea = reader.readLine()) != null) {
+                                System.out.println(linea);
+                            }
+                        } catch (IOException e) {
+                            System.err.println("Error al leer el archivo: " + archivo.getAbsolutePath());
+                        }
+                    }
+                }
+            }
+        } else {
+            System.out.println("La ruta especificada no es un directorio válido.");
+        }
     }
 
 }

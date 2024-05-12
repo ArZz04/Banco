@@ -25,11 +25,13 @@ public class NomFunctions {
         return false;
     }
 
-    public static boolean showPayrolls() {
+    public static void showPayrolls() {
         // Lógica para listar cuentas de nómina
-        System.out.println("Listando cuentas de nómina...");
-        // Aquí puedes incluir la lógica específica para mostrar las cuentas de nómina en tu sistema
-        return false;
+        try {
+            NomController.showNominas();
+        }catch (Exception e) {
+            System.out.println("Error al mostrar cuentas de nómina: " + e.getMessage());
+        }
     }
 
 }
