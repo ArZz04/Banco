@@ -21,7 +21,7 @@ public class InvController {
 
             // Agregar la informacion al archivo
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILENAME, true))) {
-                writer.write(cuentaInversion.getNCuenta() + " | " + cuentaInversion.getCliente().getNombre() + " | " + cuentaInversion.getCliente().getApellidoP() + " | " + cuentaInversion.getCliente().getApellidoM() + " | " + cuentaInversion.getCliente().getDomicilio() + " | " + cuentaInversion.getCliente().getCiudad() + " | " + cuentaInversion.getCliente().getSaldo() + " | " + cuentaInversion.getFechAlta() );
+                writer.write(cuentaInversion.getNCuenta() + " | " + cuentaInversion.getCliente().getNombre() + " | " + cuentaInversion.getCliente().getApellidoP() + " | " + cuentaInversion.getCliente().getApellidoM() + " | " + cuentaInversion.getCliente().getDomicilio() + " | " + cuentaInversion.getCliente().getCiudad() + " | " + cuentaInversion.getCliente().getTelefono() + " | " + cuentaInversion.getSaldo() + " | " + cuentaInversion.getFechAlta() );
                 writer.newLine();
             } catch (IOException e) {
                 return false;

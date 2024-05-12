@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class Main {
 
     static Scanner rc = new Scanner(System.in);
-    static ArrayList<CuentaBancaria> cuentas = new ArrayList<>();
 
     public static void main(String[] args) {
         int op;

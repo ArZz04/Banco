@@ -75,7 +75,7 @@ public class Functions {
                     try {
                         int nCuenta = generarNumeroCuenta(nombre, apellidoP, apellidoM, domicilio, ciudad, telefono);
 
-                        if (verifyNCuenta(nCuenta)) {
+                        if (!verifyNCuenta(nCuenta)) {
                             System.out.println("--------------------------------------------------");
                             System.out.println("Ya existe un usuario con sus datos.");
                             return;
