@@ -8,7 +8,7 @@ public class CuentaInversion extends CuentaBancaria {
     private int interes;
 
     public CuentaInversion(int nCuenta, double saldo, Date fechaAlta, Cliente cliente){
-        super(nCuenta, 0, fechaAlta, cliente);
+        super(nCuenta, saldo, fechaAlta, cliente);
         this.plazo = plazo;
         this.interes = interes;
     }

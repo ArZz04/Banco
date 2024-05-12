@@ -26,8 +26,11 @@ public class InvFunctions {
 
     public static void showInvestments() {
         // Lógica para listar cuentas de inversión
-        System.out.println("Listando cuentas de inversión...");
-        // Aquí puedes incluir la lógica específica para mostrar las cuentas de inversión en tu sistema
+        try {
+            InvController.showInversiones();
+        }catch (Exception e) {
+            System.out.println("Error al mostrar cuentas de Inversion: " + e.getMessage());
+        }
     }
 
 }

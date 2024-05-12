@@ -21,7 +21,7 @@ public class NomController {
 
             // Agregar la informacion al archivo
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILENAME, true))) {
-                writer.write(cuentaNomina.getNCuenta() + " | " + cuentaNomina.getCliente().getNombre() + " | " + cuentaNomina.getCliente().getApellidoP() + " | " + cuentaNomina.getCliente().getApellidoM() + " | " + cuentaNomina.getCliente().getDomicilio() + " | " + cuentaNomina.getCliente().getCiudad() + " | " + cuentaNomina.getFechAlta() + " | " + cuentaNomina.getSaldo() );
+                writer.write(cuentaNomina.getNCuenta() + " | " + cuentaNomina.getCliente().getNombre() + " | " + cuentaNomina.getCliente().getApellidoP() + " | " + cuentaNomina.getCliente().getApellidoM() + " | " + cuentaNomina.getCliente().getDomicilio() + " | " + cuentaNomina.getCliente().getCiudad() + " | " + cuentaNomina.getCliente().getTelefono() + " | " + cuentaNomina.getSaldo() + " | " + cuentaNomina.getFechAlta() );
                 writer.newLine();
             } catch (IOException e) {
                 return false;

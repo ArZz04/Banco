@@ -27,7 +27,7 @@ public class Functions {
 
         String nombre, apellidoP, apellidoM, domicilio, ciudad;
         String tipoCuenta;
-        long telefono;
+        long telefono = 0;
 
         int op;
         do {
@@ -69,14 +69,13 @@ public class Functions {
                         } catch (Exception e) {
                             System.out.println("--------------------------------------------------");
                             System.out.println("Por favor, ingrese un número de teléfono válido.");
-                            return;
                         }
                     }
 
                     try {
                         int nCuenta = generarNumeroCuenta(nombre, apellidoP, apellidoM, domicilio, ciudad, telefono);
 
-                        if (!verifyNCuenta(nCuenta)) {
+                        if (verifyNCuenta(nCuenta)) {
                             System.out.println("--------------------------------------------------");
                             System.out.println("Ya existe un usuario con sus datos.");
                             return;
@@ -104,7 +103,7 @@ public class Functions {
                     System.out.println("---------------------| INVERSION |-----------------------");
 
                     tipoCuenta = "INVERSION";
-                    telefono = 0L;
+
 
                     // Solicitar información al usuario y almacenarla en las variables
                     try{
@@ -118,13 +117,23 @@ public class Functions {
                         domicilio = rc.next();
                         System.out.print("Ciudad: ");
                         ciudad = rc.next();
+                        System.out.print("Telefono: ");
                     }catch (Exception e){
                         System.out.println("--------------------------------------------------");
                         System.out.println("Por favor, ingrese un String válido.");
                         return;
+                    }finally {
+                        try {
+                            telefono = rc.nextLong();
+                        } catch (Exception e) {
+                                System.out.println("--------------------------------------------------");
+                                System.out.println("Por favor, ingrese un número de teléfono válido.");
+                        }
                     }
+
                     try {
                         int nCuenta = generarNumeroCuenta(nombre, apellidoP, apellidoM, domicilio, ciudad, telefono);
+                        Double mountInvest;
 
                         if (!verifyNCuenta(nCuenta)) {
                             System.out.println("--------------------------------------------------");
@@ -134,19 +143,19 @@ public class Functions {
 
                         try {
                             System.out.print("Cantidad a invertir: ");
-                            telefono = rc.nextLong();
+                            mountInvest = rc.nextDouble();
                         } catch (Exception e) {
                             System.out.println("--------------------------------------------------");
                             System.out.println("Por favor, ingrese una cifra válida.");
                             return;
                         }
 
-                        double saldo = 0.0;
+                        double saldo = mountInvest;
                         Date fechAlta = new Date();
                         Cliente cliente;
 
                         cliente = new Cliente(nombre, apellidoP, apellidoM, domicilio, ciudad, telefono, tipoCuenta);
-                        CuentaInversion newCuentaInversion = new CuentaInversion( nCuenta, saldo, fechAlta, cliente);
+                        CuentaInversion newCuentaInversion = new CuentaInversion(nCuenta, saldo, fechAlta, cliente);
 
                         InvFunctions.newInvestment(newCuentaInversion);
 
