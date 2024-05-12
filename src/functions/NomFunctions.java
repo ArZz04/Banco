@@ -10,6 +10,7 @@ public class NomFunctions {
         try {
             NomController.addNomina(newCuentaNomina);
             accountManager.addCuenta(newCuentaNomina);
+
             return true;
         }catch (Exception e) {
             System.out.println("Error al crear cuenta de nómina: " + e.getMessage());

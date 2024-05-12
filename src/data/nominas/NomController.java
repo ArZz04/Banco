@@ -14,7 +14,6 @@ public class NomController {
     public static Boolean addNomina(CuentaNomina cuentaNomina) {
         String FILENAME = PATH+cuentaNomina.getNCuenta()+".txt";
         File file = new File(FILENAME);
-        System.out.println(FILENAME);
 
         try {
             // Verificar si el archivo existe
@@ -25,7 +24,7 @@ public class NomController {
 
             // Agregar la informacion al archivo
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILENAME, true))) {
-                writer.write(cuentaNomina.getNCuenta() + " | " + cuentaNomina.getCliente().getNombre() + " | " + cuentaNomina.getCliente().getApellidoP() + " | " + cuentaNomina.getCliente().getApellidoM() + " | " + cuentaNomina.getCliente().getCiudad() + " | " + cuentaNomina.getFechAlta() + " | " + cuentaNomina.getSaldo() );
+                writer.write(cuentaNomina.getNCuenta() + " | " + cuentaNomina.getCliente().getNombre() + " | " + cuentaNomina.getCliente().getApellidoP() + " | " + cuentaNomina.getCliente().getApellidoM() + " | " + cuentaNomina.getCliente().getDomicilio() + " | " + cuentaNomina.getCliente().getCiudad() + " | " + cuentaNomina.getFechAlta() + " | " + cuentaNomina.getSaldo() );
                 writer.newLine();
             } catch (IOException e) {
                 return false;

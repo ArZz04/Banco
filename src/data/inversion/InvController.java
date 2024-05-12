@@ -14,7 +14,6 @@ public class InvController {
     public static boolean addInversion(CuentaInversion cuentaInversion) {
         String FILENAME = PATH+cuentaInversion.getNCuenta()+".txt";
         File file = new File(FILENAME);
-        System.out.println(FILENAME);
 
         try {
             // Verificar si el archivo existe
@@ -25,7 +24,7 @@ public class InvController {
 
             // Agregar la informacion al archivo
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILENAME, true))) {
-                writer.write(cuentaInversion.getNCuenta() + " | " + cuentaInversion.getCliente().getNombre() + " | " + cuentaInversion.getCliente().getApellidoP() + " | " + cuentaInversion.getCliente().getApellidoM() + " | " + cuentaInversion.getCliente().getCiudad() + " | " + cuentaInversion.getFechAlta() + " | " + cuentaInversion.getSaldo() );
+                writer.write(cuentaInversion.getNCuenta() + " | " + cuentaInversion.getCliente().getNombre() + " | " + cuentaInversion.getCliente().getApellidoP() + " | " + cuentaInversion.getCliente().getApellidoM() + " | " + cuentaInversion.getCliente().getDomicilio() + " | " + cuentaInversion.getCliente().getCiudad() + " | " + cuentaInversion.getFechAlta() + " | " + cuentaInversion.getSaldo() );
                 writer.newLine();
             } catch (IOException e) {
                 return false;
