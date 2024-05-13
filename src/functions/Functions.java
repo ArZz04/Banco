@@ -207,23 +207,29 @@ public class Functions {
                     try {
                         String tipoCuenta = account.getCliente().getTipoCuenta();
 
-                        if ("NOMINA".equals(tipoCuenta)) { // Utiliza equals para comparar cadenas en Java
-                            System.out.println("Sub menu");
-                            // Aquí puedes agregar la lógica para mostrar el submenú para cuentas de nómina
+                        if ("NOMINA".equals(tipoCuenta)) {
+                            NomFunctions.showNoMenu((CuentaNomina) account);
+                            System.out.println("-----------------| SESION CERRADA |-----------------");
+                            return;
                         } else if ("INVERSION".equals(tipoCuenta)) {
-                            System.out.println("Si jala");
+                            if (account instanceof CuentaInversion) {
+                                ((CuentaInversion) account).proyectarInversion();
+                                return;
+                            } else {
+                                System.out.println("La cuenta de inversión no es válida.");
+                            }
                         } else {
                             System.out.println("Tipo de cuenta desconocido");
                         }
 
-                    } catch (NullPointerException e) { // Maneja la excepción NullPointerException si account es null
-                        System.out.println("La cuenta no existe o es inválida." + e);
-                        // Aquí puedes agregar la lógica adicional para manejar la excepción
+                    } catch (NullPointerException e) {
+                        System.out.println("La cuenta no existe o es inválida.");
                     }
 
                 } else {
                     System.out.println("---------------------------------------------------------");
                     System.out.println("El usuario ingresado no existe");
+                    return;
                 }
             } catch (InputMismatchException e) {
                 // Consume the invalid input

@@ -4,13 +4,13 @@ import java.util.Date;
 
 public class Movimientos {
 
-    private int id;
+    private long nCuenta;
     private String tipo;
     private Date fecha;
     private double monto, saldoAnterior, saldoNuevo;
 
-    public Movimientos(int id, String tipo, Date fecha, double monto, double saldoAnterior, double saldoNuevo){
-        this.id = id;
+    public Movimientos(long nCuenta, String tipo, Date fecha, double monto, double saldoAnterior, double saldoNuevo){
+        this.nCuenta = nCuenta;
         this.tipo = tipo;
         this.fecha = fecha;
         this.monto = monto;
@@ -19,8 +19,8 @@ public class Movimientos {
     }
 
     // Getters
-    public int getId() {
-        return id;
+    public long getnCuenta() {
+        return nCuenta;
     }
 
     public String getTipo() {
@@ -44,8 +44,8 @@ public class Movimientos {
     }
 
     // Setters
-    public void setId(int id) {
-        this.id = id;
+    public void setnCuenta(int nCuenta) {
+        this.nCuenta = nCuenta;
     }
 
     public void setTipo(String tipo) {

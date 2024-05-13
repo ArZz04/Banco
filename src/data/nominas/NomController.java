@@ -5,8 +5,10 @@ import builders.CuentaBancaria;
 import builders.CuentaNomina;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 import java.util.Date;
 
@@ -38,8 +40,32 @@ public class NomController {
         return true;
     }
 
-    public static void searchAccount(){
+    public static void refreshSaldo(long nCuenta, double nuevoSaldo) {
+        String FILENAME = PATH + nCuenta + ".txt";
+        File file = new File(FILENAME);
 
+        try {
+            // Verificar si el archivo existe
+            if (file.exists()) {
+                // Leer las líneas del archivo y actualizar el saldo
+                List<String> lines = Files.readAllLines(file.toPath());
+                for (int i = 0; i < lines.size(); i++) {
+                    String[] parts = lines.get(i).split(" \\| ");
+                    if (parts.length > 7 && Long.parseLong(parts[0]) == nCuenta) {
+                        parts[7] = Double.toString(nuevoSaldo);
+                        lines.set(i, String.join(" | ", parts));
+                        break; // Terminar el bucle después de encontrar y actualizar el saldo
+                    }
+                }
+
+                // Escribir las líneas actualizadas de vuelta al archivo
+                Files.write(file.toPath(), lines);
+            } else {
+                System.out.println("El archivo no existe.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void showNominas() {

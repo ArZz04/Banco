@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.math.BigInteger;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -64,46 +65,45 @@ public class ExtraFunctions {
                             if (file.isFile() && file.getName().toLowerCase().endsWith(".txt")) {
                                 if (file.getName().equalsIgnoreCase(usr + ".txt")) {
                                     try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-
                                         String line;
                                         while ((line = reader.readLine()) != null) {
                                             String[] parts = line.split("\\|");
-                                            if (parts.length == 11) {
-                                                int nCuenta = Integer.parseInt(parts[0].trim());
-                                                String nombre = parts[1].trim();
-                                                String apellidoPaterno = parts[2].trim();
-                                                String apellidoMaterno = parts[3].trim();
-                                                String domicilio = parts[4].trim();
-                                                String ciudad = parts[5].trim();
-                                                long telefono = Long.parseLong(parts[6].trim());
-                                                double saldo = Double.parseDouble(parts[7].trim());
 
-                                                Date fechAlta = null;
-                                                int plazo = 0;
-                                                double interes = 0.0;
+                                            int nCuenta = Integer.parseInt(parts[0].trim());
+                                            String nombre = parts[1].trim();
+                                            String apellidoPaterno = parts[2].trim();
+                                            String apellidoMaterno = parts[3].trim();
+                                            String domicilio = parts[4].trim();
+                                            String ciudad = parts[5].trim();
+                                            long telefono = Long.parseLong(parts[6].trim());
+                                            double saldo = Double.parseDouble(parts[7].trim());
 
-                                                // Determinar el tipo de cuenta según la ruta del archivo
-                                                String tipoCuenta = filePath.contains("nominas") ? "NOMINA" : "INVERSION";
+                                            Date fechAlta = null;
+                                            int plazo = 0;
+                                            double interes = 0.0;
+                                            String tipoCuenta = filePath.contains("nominas") ? "NOMINA" : "INVERSION";
 
-                                                // Crear el cliente y la cuenta correspondientes
+                                            if (parts.length == 9) {
+                                                fechAlta = dateFormat.parse(parts[8].trim());
                                                 Cliente newCliente = new Cliente(nombre, apellidoPaterno, apellidoMaterno, domicilio, ciudad, telefono, tipoCuenta);
-                                                if (filePath.contains("nominas")) {
-                                                    fechAlta = dateFormat.parse(parts[8].trim());
-                                                    return new CuentaNomina(nCuenta, saldo, fechAlta, newCliente);
-                                                } else {
-                                                    try {
-                                                        interes = Double.parseDouble(parts[8].trim());
-                                                        plazo = Integer.parseInt(parts[9].trim());
-                                                        fechAlta = dateFormat.parse(parts[10].trim());
-                                                    }catch (Exception e){
-                                                        System.out.println("Plazo o Interes invalido..");
-                                                    }
+                                                return new CuentaNomina(nCuenta, saldo, fechAlta, newCliente);
+                                            } else if (parts.length == 11) {
+                                                try {
+                                                    interes = Double.parseDouble(parts[8].trim());
+                                                    plazo = Integer.parseInt(parts[9].trim());
+                                                    fechAlta = dateFormat.parse(parts[10].trim());
+                                                    Cliente newCliente = new Cliente(nombre, apellidoPaterno, apellidoMaterno, domicilio, ciudad, telefono, tipoCuenta);
                                                     return new CuentaInversion(nCuenta, saldo, fechAlta, plazo, interes, newCliente);
+                                                } catch (NumberFormatException e){
+                                                    System.out.println("Plazo o Interes invalido..");
+                                                    // Aquí puedes agregar algún manejo específico de la excepción si es necesario
                                                 }
                                             }
                                         }
-                                    } catch (IOException e) {
-                                        System.err.println("Error al leer el archivo: " + file.getAbsolutePath());
+                                    } catch (IOException ex) {
+                                        throw new RuntimeException(ex);
+                                    } catch (ParseException ex) {
+                                        throw new RuntimeException(ex);
                                     }
                                 }
                             }
@@ -112,7 +112,6 @@ public class ExtraFunctions {
                 } else {
                     System.out.println("La ruta especificada no es un directorio válido.");
                 }
-
             }
         } catch (Exception e) {
             e.printStackTrace();

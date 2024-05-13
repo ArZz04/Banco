@@ -30,12 +30,21 @@ public class CuentaInversion extends CuentaBancaria {
     }
 
     public void proyectarInversion(){
+
+        double montoInvertido = getSaldo();
+        int plazo = getPlazo();
+        double interes = getInteres();
+
+        double rendimiento = (montoInvertido * plazo * interes) / 100;
+        double total = montoInvertido + rendimiento;
+
         System.out.println("---------------------------------------------------------");
-        System.out.println("----------------------| PROYECTAR |----------------------");
-        System.out.println("Monto Invertido: " + getSaldo());
-        System.out.println("A plazo de " + getPlazo() + " meses");
-        System.out.println("Con un interes de " + getInteres());
-        System.out.println("----------------------| $"+ (getSaldo() * getPlazo() * getInteres())/100 +" |----------------------");
+        System.out.println("---------------------| PROYECCION |----------------------");
+        System.out.println("Monto Invertido: $" + montoInvertido);
+        System.out.println("A plazo de " + plazo + " meses");
+        System.out.println("Con un interés de " + interes + "%");
+        System.out.println("-----------------| Rendimiento: $" + rendimiento + " |-----------------");
+        System.out.println("--------------------| Total: $" + total + " |-------------------");
     }
 
 }
