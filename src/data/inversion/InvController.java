@@ -1,8 +1,15 @@
 package data.inversion;
 
+import builders.Cliente;
+import builders.CuentaBancaria;
 import builders.CuentaInversion;
+import builders.CuentaNomina;
 
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class InvController {
 
@@ -21,7 +28,7 @@ public class InvController {
 
             // Agregar la informacion al archivo
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILENAME, true))) {
-                writer.write(cuentaInversion.getNCuenta() + " | " + cuentaInversion.getCliente().getNombre() + " | " + cuentaInversion.getCliente().getApellidoP() + " | " + cuentaInversion.getCliente().getApellidoM() + " | " + cuentaInversion.getCliente().getDomicilio() + " | " + cuentaInversion.getCliente().getCiudad() + " | " + cuentaInversion.getCliente().getTelefono() + " | " + cuentaInversion.getSaldo() + " | " + cuentaInversion.getFechAlta() );
+                writer.write(cuentaInversion.getNCuenta() + "   | " + cuentaInversion.getCliente().getNombre() + " | " + cuentaInversion.getCliente().getApellidoP() + " | " + cuentaInversion.getCliente().getApellidoM() + " | " + cuentaInversion.getCliente().getDomicilio() + " | " + cuentaInversion.getCliente().getCiudad() + " | " + cuentaInversion.getCliente().getTelefono() + " | " + cuentaInversion.getSaldo() + " | " + cuentaInversion.getInteres() + " | " + cuentaInversion.getPlazo() + " | " + cuentaInversion.getFechAlta() );
                 writer.newLine();
             } catch (IOException e) {
                 return false;
@@ -34,6 +41,7 @@ public class InvController {
 
     public static void showInversiones() {
         // Crear un objeto File con la ruta del directorio
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
         File directorio = new File(PATH);
 
         // Verificar si el objeto File representa un directorio válido
@@ -42,8 +50,8 @@ public class InvController {
             File[] archivos = directorio.listFiles();
 
             if (archivos != null) {
-                System.out.println("----------------------------------------------| INVERSIONES |----------------------------------------------");
-                System.out.println("NCuenta | Nombre | ApellidoP | ApellidoM | Domicilio | Ciudad | Telefono | Inversion | FechaAlta           ");
+                System.out.println("-------------------------------------------------------| INVERSIONES |-------------------------------------------------------");
+                System.out.println("NCuenta | Nombre | ApellidoP | ApellidoM | Domicilio | Ciudad | Telefono | Inversion | Interes | Plazo | FechaAlta           ");
 
                 for (File archivo : archivos) {
                     if (archivo.isFile() && archivo.getName().toLowerCase().endsWith(".txt")) {
@@ -52,9 +60,26 @@ public class InvController {
                         try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
                             String linea;
                             while ((linea = reader.readLine()) != null) {
-                                System.out.println(linea);
+                                String[] parts = linea.split("\\|");
+                                if (parts.length == 11){
+                                    int nCuenta = Integer.parseInt(parts[0].trim());
+                                    String nombre = parts[1].trim();
+                                    String apellidoPaterno = parts[2].trim();
+                                    String apellidoMaterno = parts[3].trim();
+                                    String domicilio = parts[4].trim();
+                                    String ciudad = parts[5].trim();
+                                    long telefono = Long.parseLong(parts[6].trim());
+                                    double saldo = Double.parseDouble(parts[7].trim());
+                                    double interes = Double.parseDouble(parts[8].trim());
+                                    int plazo = Integer.parseInt(parts[9].trim());
+                                    Date fechAlta = dateFormat.parse(parts[10].trim());
+
+                                    Cliente client = new Cliente(nombre, apellidoPaterno, apellidoMaterno, domicilio, ciudad, telefono, "INVERSION");
+                                    CuentaInversion account = new CuentaInversion(nCuenta, saldo, fechAlta, plazo, interes, client);
+                                    System.out.println(account.getNCuenta() + " | " + client.getNombre() + " | " + client.getApellidoP() + " | " + client.getApellidoM() + " | " + client.getDomicilio() + " | " + client.getCiudad() + " | " + client.getTelefono() + " | $" + account.getSaldo() + " | " + account.getInteres() + "% | " + account.getPlazo() + " meses | " + account.getFechAlta() + " |");
+                                }
                             }
-                        } catch (IOException e) {
+                        } catch (IOException | ParseException e) {
                             System.err.println("Error al leer el archivo: " + archivo.getAbsolutePath());
                         }
                     }

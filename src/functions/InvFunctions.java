@@ -4,7 +4,10 @@ import builders.CuentaInversion;
 import data.accountManager;
 import data.inversion.InvController;
 
+import java.util.Scanner;
+
 public class InvFunctions {
+    static Scanner rc = new Scanner(System.in);
 
     public static void newInvestment(CuentaInversion newCuentaInversion) {
         try {
@@ -16,7 +19,29 @@ public class InvFunctions {
     }
 
     public static void findInvestment() {
-        System.out.println("Buscando cuentas de inversión...");
+        int op;
+        do {
+            System.out.println("----------------------| BUSCAR |----------------------");
+            System.out.println("1.- Nominas");
+            System.out.println("2.- Inversion");
+            System.out.println("0.- Regresar");
+            System.out.print("- Selecciona una opcion ->  ");
+            op = rc.nextInt();
+            switch (op){
+                case 0:
+                    break;
+                case 1:
+                    NomFunctions.findPayroll();
+                    break;
+                case 2:
+                    InvFunctions.findInvestment();
+                    break;
+                default:
+                    System.out.println("---------------------------------------------------------");
+                    System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
+                    break;
+            }
+        } while (op != 0);
     }
 
     public static void showInvestments() {

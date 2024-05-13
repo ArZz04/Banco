@@ -10,7 +10,7 @@ public class CuentaNomina extends CuentaBancaria {
     private Cliente cliente;
 
     public CuentaNomina(int nCuenta, double saldo, Date fechaAlta, Cliente cliente) {
-        super(nCuenta, 0, fechaAlta, cliente);
+        super(nCuenta, saldo, fechaAlta, cliente);
         this.movimientos = new ArrayList<>();
         this.cliente = cliente;
     }

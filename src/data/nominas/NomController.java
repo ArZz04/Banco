@@ -1,8 +1,14 @@
 package data.nominas;
 
+import builders.Cliente;
+import builders.CuentaBancaria;
 import builders.CuentaNomina;
 
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.Date;
 
 public class NomController {
 
@@ -32,8 +38,13 @@ public class NomController {
         return true;
     }
 
+    public static void searchAccount(){
+
+    }
+
     public static void showNominas() {
         // Crear un objeto File con la ruta del directorio
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
         File directorio = new File(PATH);
 
         // Verificar si el objeto File representa un directorio válido
@@ -52,9 +63,23 @@ public class NomController {
                         try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
                             String linea;
                             while ((linea = reader.readLine()) != null) {
-                                System.out.println(linea);
+                                String[] parts = linea.split("\\|");
+                                if (parts.length == 9){
+                                    int nCuenta = Integer.parseInt(parts[0].trim());
+                                    String nombre = parts[1].trim();
+                                    String apellidoPaterno = parts[2].trim();
+                                    String apellidoMaterno = parts[3].trim();
+                                    String domicilio = parts[4].trim();
+                                    String ciudad = parts[5].trim();
+                                    long telefono = Long.parseLong(parts[6].trim());
+                                    double saldo = Double.parseDouble(parts[7].trim());
+                                    Date fechAlta = dateFormat.parse(parts[8].trim());
+                                    Cliente client = new Cliente(nombre, apellidoPaterno, apellidoMaterno, domicilio, ciudad, telefono, "NOMINA");
+                                    CuentaBancaria account = new CuentaNomina(nCuenta, saldo, fechAlta, client);
+                                    System.out.println(account.getNCuenta() + " | " + client.getNombre() + " | " + client.getApellidoP() + " | " + client.getApellidoM() + " | " + client.getDomicilio() + " | " + client.getCiudad() + " | " + client.getTelefono() + " | $" + account.getSaldo() + " | " + account.getFechAlta() + " |");
+                                }
                             }
-                        } catch (IOException e) {
+                        } catch (IOException | ParseException e) {
                             System.err.println("Error al leer el archivo: " + archivo.getAbsolutePath());
                         }
                     }

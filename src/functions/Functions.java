@@ -1,10 +1,12 @@
 package functions;
 
 import builders.Cliente;
+import builders.CuentaBancaria;
 import builders.CuentaInversion;
 import builders.CuentaNomina;
 
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static data.accountManager.verifyNCuenta;
@@ -73,7 +75,7 @@ public class Functions {
                     }
 
                     try {
-                        int nCuenta = generarNumeroCuenta(nombre, apellidoP, apellidoM, domicilio, ciudad, telefono);
+                        int nCuenta = generarNumeroCuenta(nombre.toUpperCase(), apellidoP.toUpperCase(), apellidoM.toUpperCase(), domicilio.toUpperCase(), ciudad.toUpperCase(), telefono);
 
                         if (!verifyNCuenta(nCuenta)) {
                             System.out.println("--------------------------------------------------");
@@ -85,7 +87,7 @@ public class Functions {
                         Date fechAlta = new Date();
                         Cliente cliente;
 
-                        cliente = new Cliente(nombre, apellidoP, apellidoM, domicilio, ciudad, telefono, tipoCuenta);
+                        cliente = new Cliente(nombre.toUpperCase(), apellidoP.toUpperCase(), apellidoM.toUpperCase(), domicilio.toUpperCase(), ciudad.toUpperCase(), telefono, tipoCuenta);
                         CuentaNomina newCuentaNomina = new CuentaNomina( nCuenta, saldo, fechAlta, cliente);
 
                         NomFunctions.newPayroll(newCuentaNomina);
@@ -133,7 +135,8 @@ public class Functions {
 
                     try {
                         int nCuenta = generarNumeroCuenta(nombre, apellidoP, apellidoM, domicilio, ciudad, telefono);
-                        Double mountInvest;
+                        Double mountInvest, interes;
+                        int plazo;
 
                         if (!verifyNCuenta(nCuenta)) {
                             System.out.println("--------------------------------------------------");
@@ -144,18 +147,34 @@ public class Functions {
                         try {
                             System.out.print("Cantidad a invertir: ");
                             mountInvest = rc.nextDouble();
+                            try{
+                                System.out.print("Ingrese el plazo (meses): ");
+                                plazo = rc.nextInt();
+                            }catch (Exception e){
+                                System.out.println("--------------------------------------------------");
+                                System.out.println("Por favor, ingrese un plazo válido.");
+                                return;
+                            }
+                            try{
+                                System.out.print("Ingrese el interes: ");
+                                interes = rc.nextDouble();
+                            }catch (Exception e){
+                                System.out.println("--------------------------------------------------");
+                                System.out.println("Por favor, ingrese un interes valido.");
+                                return;
+                            }
                         } catch (Exception e) {
                             System.out.println("--------------------------------------------------");
                             System.out.println("Por favor, ingrese una cifra válida.");
                             return;
                         }
 
-                        double saldo = mountInvest;
+                        double inversion = mountInvest;
                         Date fechAlta = new Date();
                         Cliente cliente;
 
-                        cliente = new Cliente(nombre, apellidoP, apellidoM, domicilio, ciudad, telefono, tipoCuenta);
-                        CuentaInversion newCuentaInversion = new CuentaInversion(nCuenta, saldo, fechAlta, cliente);
+                        cliente = new Cliente(nombre.toUpperCase(), apellidoP.toUpperCase(), apellidoM.toUpperCase(), domicilio.toUpperCase(), ciudad.toUpperCase(), telefono, tipoCuenta);
+                        CuentaInversion newCuentaInversion = new CuentaInversion(nCuenta, inversion, fechAlta, plazo, interes, cliente);
 
                         InvFunctions.newInvestment(newCuentaInversion);
 
@@ -174,29 +193,48 @@ public class Functions {
     }
 
     public static void handleFind() {
-        int op;
+        int usr;
+
         do {
-            System.out.println("----------------------| BUSCAR |----------------------");
-            System.out.println("1.- Nominas");
-            System.out.println("2.- Inversion");
-            System.out.println("0.- Regresar");
-            System.out.print("- Selecciona una opcion ->  ");
-            op = rc.nextInt();
-            switch (op){
-                case 0:
-                    break;
-                case 1:
-                    NomFunctions.findPayroll();
-                    break;
-                case 2:
-                    InvFunctions.findInvestment();
-                    break;
-                default:
+            System.out.println("----------------| INGRESA EL USUARIO |----------------");
+            System.out.print("->  ");
+
+            try {
+                usr = rc.nextInt();
+
+                if (!verifyNCuenta(usr)) {
+                    CuentaBancaria account = ExtraFunctions.returnFile(usr);
+                    try {
+                        String tipoCuenta = account.getCliente().getTipoCuenta();
+
+                        if ("NOMINA".equals(tipoCuenta)) { // Utiliza equals para comparar cadenas en Java
+                            System.out.println("Sub menu");
+                            // Aquí puedes agregar la lógica para mostrar el submenú para cuentas de nómina
+                        } else if ("INVERSION".equals(tipoCuenta)) {
+                            System.out.println("Si jala");
+                        } else {
+                            System.out.println("Tipo de cuenta desconocido");
+                        }
+
+                    } catch (NullPointerException e) { // Maneja la excepción NullPointerException si account es null
+                        System.out.println("La cuenta no existe o es inválida." + e);
+                        // Aquí puedes agregar la lógica adicional para manejar la excepción
+                    }
+
+                } else {
                     System.out.println("---------------------------------------------------------");
-                    System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
-                    break;
+                    System.out.println("El usuario ingresado no existe");
+                }
+            } catch (InputMismatchException e) {
+                // Consume the invalid input
+                rc.nextLine();
+                System.out.println("Usuario invalido. Ingrese un usuario valido.");
+                usr = -1; // Set usr to an invalid value to avoid infinite loop
             }
-        } while (op != 0);
+
+        } while (usr != 0);
+
+        rc.close(); // Close the scanner after the loop
     }
 
     public static void handleShow() {

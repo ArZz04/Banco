@@ -4,7 +4,11 @@ import builders.CuentaNomina;
 import data.accountManager;
 import data.nominas.NomController;
 
+import java.util.Scanner;
+
 public class NomFunctions {
+
+    static Scanner rc = new Scanner(System.in);
 
     public static void newPayroll(CuentaNomina newCuentaNomina) {
         try {
@@ -15,9 +19,8 @@ public class NomFunctions {
         }
     }
 
-    public static boolean findPayroll() {
-        System.out.println("Buscando cuentas de nómina...");
-        return false;
+    public static void findPayroll() {
+
     }
 
     public static void showPayrolls() {

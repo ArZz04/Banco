@@ -5,9 +5,9 @@ import java.util.Date;
 public class CuentaInversion extends CuentaBancaria {
 
     private int plazo;
-    private int interes;
+    private double interes;
 
-    public CuentaInversion(int nCuenta, double saldo, Date fechaAlta, Cliente cliente){
+    public CuentaInversion(int nCuenta, double saldo, Date fechaAlta, int plazo, double interes, Cliente cliente){
         super(nCuenta, saldo, fechaAlta, cliente);
         this.plazo = plazo;
         this.interes = interes;
@@ -21,7 +21,7 @@ public class CuentaInversion extends CuentaBancaria {
         this.plazo = plazo;
     }
 
-    public int getInteres(){
+    public double getInteres(){
         return this.interes;
     }
 
@@ -30,7 +30,12 @@ public class CuentaInversion extends CuentaBancaria {
     }
 
     public void proyectarInversion(){
-        return;
+        System.out.println("---------------------------------------------------------");
+        System.out.println("----------------------| PROYECTAR |----------------------");
+        System.out.println("Monto Invertido: " + getSaldo());
+        System.out.println("A plazo de " + getPlazo() + " meses");
+        System.out.println("Con un interes de " + getInteres());
+        System.out.println("----------------------| $"+ (getSaldo() * getPlazo() * getInteres())/100 +" |----------------------");
     }
 
 }

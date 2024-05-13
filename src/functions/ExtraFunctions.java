@@ -1,7 +1,19 @@
 package functions;
 
+import builders.Cliente;
+import builders.CuentaBancaria;
+import builders.CuentaInversion;
+import builders.CuentaNomina;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class ExtraFunctions {
 
@@ -36,6 +48,77 @@ public class ExtraFunctions {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static CuentaBancaria returnFile(int usr) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+        String[] filePaths = {"/Users/juanarvizu/ArZzDev/java/tecmm/poo/Banco/src/data/inversion", "/Users/juanarvizu/ArZzDev/java/tecmm/poo/Banco/src/data/nominas"};
+
+        try {
+            for (String filePath : filePaths) {
+                File directory = new File(filePath);
+                if (directory.isDirectory()) {
+                    File[] files = directory.listFiles();
+                    if (files != null) {
+                        for (File file : files) {
+                            if (file.isFile() && file.getName().toLowerCase().endsWith(".txt")) {
+                                if (file.getName().equalsIgnoreCase(usr + ".txt")) {
+                                    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+
+                                        String line;
+                                        while ((line = reader.readLine()) != null) {
+                                            String[] parts = line.split("\\|");
+                                            if (parts.length == 11) {
+                                                int nCuenta = Integer.parseInt(parts[0].trim());
+                                                String nombre = parts[1].trim();
+                                                String apellidoPaterno = parts[2].trim();
+                                                String apellidoMaterno = parts[3].trim();
+                                                String domicilio = parts[4].trim();
+                                                String ciudad = parts[5].trim();
+                                                long telefono = Long.parseLong(parts[6].trim());
+                                                double saldo = Double.parseDouble(parts[7].trim());
+
+                                                Date fechAlta = null;
+                                                int plazo = 0;
+                                                double interes = 0.0;
+
+                                                // Determinar el tipo de cuenta según la ruta del archivo
+                                                String tipoCuenta = filePath.contains("nominas") ? "NOMINA" : "INVERSION";
+
+                                                // Crear el cliente y la cuenta correspondientes
+                                                Cliente newCliente = new Cliente(nombre, apellidoPaterno, apellidoMaterno, domicilio, ciudad, telefono, tipoCuenta);
+                                                if (filePath.contains("nominas")) {
+                                                    fechAlta = dateFormat.parse(parts[8].trim());
+                                                    return new CuentaNomina(nCuenta, saldo, fechAlta, newCliente);
+                                                } else {
+                                                    try {
+                                                        interes = Double.parseDouble(parts[8].trim());
+                                                        plazo = Integer.parseInt(parts[9].trim());
+                                                        fechAlta = dateFormat.parse(parts[10].trim());
+                                                    }catch (Exception e){
+                                                        System.out.println("Plazo o Interes invalido..");
+                                                    }
+                                                    return new CuentaInversion(nCuenta, saldo, fechAlta, plazo, interes, newCliente);
+                                                }
+                                            }
+                                        }
+                                    } catch (IOException e) {
+                                        System.err.println("Error al leer el archivo: " + file.getAbsolutePath());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    System.out.println("La ruta especificada no es un directorio válido.");
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 }
