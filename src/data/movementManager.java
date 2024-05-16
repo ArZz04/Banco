@@ -17,9 +17,7 @@ public class movementManager {
         File file = new File(FILENAME);
 
         try {
-            // Verificar si el archivo existe
             if (!file.exists()) {
-                // Si no existe, crear el archivo
                 file.createNewFile();
             }
             // Agregar la cuenta al archivo

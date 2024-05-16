@@ -103,7 +103,6 @@ public class NomFunctions {
         }
     }
     private static void consultar(CuentaNomina account){
-        double amount = 0;
         System.out.println("---------------------------------------------------------");
         System.out.println("---------------------| CONSULTAR |-----------------------");
         System.out.print(" Su saldo actual es de: " + account.getSaldo());

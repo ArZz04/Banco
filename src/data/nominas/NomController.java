@@ -21,9 +21,7 @@ public class NomController {
         File file = new File(FILENAME);
 
         try {
-            // Verificar si el archivo existe
             if (!file.exists()) {
-                // Si no existe, crear el archivo
                 file.createNewFile();
             }
 
@@ -45,20 +43,17 @@ public class NomController {
         File file = new File(FILENAME);
 
         try {
-            // Verificar si el archivo existe
             if (file.exists()) {
-                // Leer las líneas del archivo y actualizar el saldo
                 List<String> lines = Files.readAllLines(file.toPath());
                 for (int i = 0; i < lines.size(); i++) {
                     String[] parts = lines.get(i).split(" \\| ");
                     if (parts.length > 7 && Long.parseLong(parts[0]) == nCuenta) {
                         parts[7] = Double.toString(nuevoSaldo);
                         lines.set(i, String.join(" | ", parts));
-                        break; // Terminar el bucle después de encontrar y actualizar el saldo
+                        break;
                     }
                 }
 
-                // Escribir las líneas actualizadas de vuelta al archivo
                 Files.write(file.toPath(), lines);
             } else {
                 System.out.println("El archivo no existe.");
@@ -69,13 +64,10 @@ public class NomController {
     }
 
     public static void showNominas() {
-        // Crear un objeto File con la ruta del directorio
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
         File directorio = new File(PATH);
 
-        // Verificar si el objeto File representa un directorio válido
         if (directorio.isDirectory()) {
-            // Obtener la lista de archivos y subdirectorios dentro del directorio
             File[] archivos = directorio.listFiles();
 
             if (archivos != null) {
@@ -85,7 +77,6 @@ public class NomController {
                 for (File archivo : archivos) {
                     if (archivo.isFile() && archivo.getName().toLowerCase().endsWith(".txt")) {
 
-                        // Leer y mostrar el contenido del archivo
                         try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
                             String linea;
                             while ((linea = reader.readLine()) != null) {

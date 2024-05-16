@@ -37,16 +37,11 @@ public class CuentaNomina extends CuentaBancaria {
 
     public void retirar( double cantidad){
         if (cantidad > 0 && cantidad <= getSaldo()) {
-            // Verificar que la cantidad a retirar sea mayor que cero
-            // y no exceda el saldo disponible en la cuenta
 
-            // Obtener el saldo actual de la cuenta
             double saldoAnterior = getSaldo();
 
-            // Actualizar el saldo
             setSaldo(saldoAnterior - cantidad);
 
-            // Registrar el retiro como un movimiento
             Movimientos movimiento = new Movimientos(getNCuenta(), "RETIRO", new Date(), cantidad, saldoAnterior, getSaldo());
             movimientos.add(movimiento);
             movementManager.addMovement(movimiento);
@@ -62,13 +57,10 @@ public class CuentaNomina extends CuentaBancaria {
 
     public void depositar(double cantidad){
         if (cantidad > 0) {
-            // Obtener el saldo actual de la cuenta
             double saldoAnterior = getSaldo();
 
-            // Actualizar el saldo
             setSaldo(saldoAnterior + cantidad);
 
-            // Registrar el depósito como un movimiento
             Movimientos movimiento = new Movimientos(getNCuenta(), "DEPÓSITO", new Date(), cantidad, saldoAnterior, getSaldo());
             movimientos.add(movimiento);
             movementManager.addMovement(movimiento);

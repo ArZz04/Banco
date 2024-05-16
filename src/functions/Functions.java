@@ -89,6 +89,7 @@ public class Functions {
 
                         cliente = new Cliente(nombre.toUpperCase(), apellidoP.toUpperCase(), apellidoM.toUpperCase(), domicilio.toUpperCase(), ciudad.toUpperCase(), telefono, tipoCuenta);
                         CuentaNomina newCuentaNomina = new CuentaNomina( nCuenta, saldo, fechAlta, cliente);
+                        System.out.println("-----------------| NUMERO DE USUARIO: " + nCuenta + "|--------------------");
 
                         NomFunctions.newPayroll(newCuentaNomina);
 
@@ -175,6 +176,8 @@ public class Functions {
 
                         cliente = new Cliente(nombre.toUpperCase(), apellidoP.toUpperCase(), apellidoM.toUpperCase(), domicilio.toUpperCase(), ciudad.toUpperCase(), telefono, tipoCuenta);
                         CuentaInversion newCuentaInversion = new CuentaInversion(nCuenta, inversion, fechAlta, plazo, interes, cliente);
+
+                        System.out.println("-------------------| Su numero de cuenta es: "+ nCuenta +" |------------------------");
 
                         InvFunctions.newInvestment(newCuentaInversion);
 
